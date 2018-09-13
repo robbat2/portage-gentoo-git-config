@@ -8,7 +8,7 @@ repository_path="${3}"
 source /lib/gentoo/functions.sh
 
 GLSADIR="${repository_path}"/metadata/glsa
-ebegin "Updating GLSAs"
+ebegin "Updating GLSAs @ $GLSADIR"
 if [[ -e ${GLSADIR} ]]; then
 	git -C "${GLSADIR}" pull -q --ff-only
 else

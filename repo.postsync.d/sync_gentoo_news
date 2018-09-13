@@ -8,7 +8,7 @@ repository_path="${3}"
 source /lib/gentoo/functions.sh
 
 NEWSDIR="${repository_path}"/metadata/news
-ebegin "Updating news items"
+ebegin "Updating news items @ ${NEWSDIR}"
 if [[ -e ${NEWSDIR} ]]; then
 	git -C "${NEWSDIR}" pull -q --ff-only
 else
