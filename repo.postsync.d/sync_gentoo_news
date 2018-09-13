@@ -9,9 +9,11 @@ source /lib/gentoo/functions.sh
 
 NEWSDIR="${repository_path}"/metadata/news
 ebegin "Updating news items @ ${NEWSDIR}"
-if [[ -e ${NEWSDIR} ]]; then
+if [[ -e ${NEWSDIR} ]] && [[ -e ${NEWSDIR}/.git ]]; then
 	git -C "${NEWSDIR}" pull -q --ff-only
-else
+elif [[ ! -e ${NEWSDIR} ]]; then
 	git clone -q https://anongit.gentoo.org/git/data/gentoo-news.git "${NEWSDIR}"
+else # [[ -e ${NEWSDIR} ]]
+	rsync -qa rsync://rsync.gentoo.org/gentoo-repo/metadata/news/ "${NEWSDIR}"
 fi
 eend $? "Try to remove ${NEWSDIR}"

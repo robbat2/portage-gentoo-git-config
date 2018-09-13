@@ -9,9 +9,11 @@ source /lib/gentoo/functions.sh
 
 DTDDIR="${repository_path}"/metadata/dtd
 ebegin "Updating DTDs @ ${DTDDIR}"
-if [[ -e ${DTDDIR} ]]; then
+if [[ -e ${DTDDIR} ]] && [[ -e ${DTDDIR}/.git ]]; then
 	git -C "${DTDDIR}" pull -q --ff-only
-else
+elif [[ ! -e ${DTDDIR} ]]; then
 	git clone -q https://anongit.gentoo.org/git/data/dtd.git "${DTDDIR}"
+else # [[ -e ${DTDDIR} ]]
+	rsync -qa rsync://rsync.gentoo.org/gentoo-repo/metadata/dtd/ "${DTDDIR}"
 fi
 eend "$?"

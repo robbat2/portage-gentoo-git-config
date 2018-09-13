@@ -9,9 +9,11 @@ source /lib/gentoo/functions.sh
 
 GLSADIR="${repository_path}"/metadata/glsa
 ebegin "Updating GLSAs @ $GLSADIR"
-if [[ -e ${GLSADIR} ]]; then
+if [[ -e ${GLSADIR} ]] && [[ -e ${GLSADIR}/.git ]]; then
 	git -C "${GLSADIR}" pull -q --ff-only
-else
+elif [[ ! -e ${GLSADIR} ]]; then
 	git clone -q https://anongit.gentoo.org/git/data/glsa.git "${GLSADIR}"
+else # [[ -e ${GLSADIR} ]]
+	rsync -qa rsync://rsync.gentoo.org/gentoo-repo/metadata/glsa/ "${GLSADIR}"
 fi
 eend "$?"
